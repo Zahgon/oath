@@ -1,7 +1,6 @@
 package com.lochbridge.oath.otp.keyprovisioning;
 
 import java.util.Locale;
-
 import com.google.common.base.Preconditions;
 import com.google.common.escape.Escaper;
 import com.google.common.net.PercentEscaper;
@@ -9,19 +8,19 @@ import com.google.common.net.UrlEscapers;
 import com.lochbridge.oath.otp.keyprovisioning.OTPKey.OTPType;
 
 /**
- * An immutable class representing an OTP Auth URI (as per the 
+ * An immutable class representing an OTP Auth URI (as per the
  * <a href="https://code.google.com/p/google-authenticator/wiki/KeyUriFormat">Google Authenticator URI format</a>):
  * <pre>otpauth://{type}/{label}?secret={secret}&amp;issuer={issuer}&amp;digits={digits}&amp;counter={counter}&amp;period={period}</pre>
  * <ul>
  * <li>{@code type}: The OTP type, either "hotp" or "totp".</li>
- * <li>{@code label}: The label used to identify which account the underlying key is associated with. 
- * It contains an account name, which is a URI-encoded string, optionally prefixed by an issuer string 
+ * <li>{@code label}: The label used to identify which account the underlying key is associated with.
+ * It contains an account name, which is a URI-encoded string, optionally prefixed by an issuer string
  * identifying the provider or service managing that account.</li>
  * <li>{@code secret}: The encoded value of the underlying OTP shared secret key.</li>
  * <li>{@code issuer}: String identifying the provider or service managing that account.</li>
- * <li>{@code counter}: The initial counter value (aka the moving factor). The parameter will only be present 
+ * <li>{@code counter}: The initial counter value (aka the moving factor). The parameter will only be present
  * if the {@code type} is "hotp".</li>
- * <li>{@code period}: The time step size (in seconds) used for generating TOTPs. The parameter will only be present 
+ * <li>{@code period}: The time step size (in seconds) used for generating TOTPs. The parameter will only be present
  * if the {@code type} is "totp".</li>
  * </ul>
  * <p>
@@ -37,26 +36,31 @@ import com.lochbridge.oath.otp.keyprovisioning.OTPKey.OTPType;
  * </pre>
  */
 public class OTPAuthURI {
-    
-    private static final String URI_SAFECHARS_QUERY_STRING =
-            "-._~" +      // Unreserved characters (as per the PercentEscaper: the ranges 0..9, a..z and A..Z are always safe and should not be specified here)
-            "!$'()*,;" +  // The "sub-delims" characters (excluding '+', '&' and '=').
-            ":@" +        // The additional "pchar" characters permitted in query parameters.
-            "/?";         // The additional "query" characters permitted in query parameters.
-    
+
+    private static final String URI_SAFECHARS_QUERY_STRING = // Unreserved characters (as per the PercentEscaper: the ranges 0..9, a..z and A..Z are always safe and should not be specified here)
+    "-._~" + // The "sub-delims" characters (excluding '+', '&' and '=').
+    "!$'()*,;" + // The additional "pchar" characters permitted in query parameters.
+    ":@" + // The additional "query" characters permitted in query parameters.
+    "/?";
+
     private static final Escaper QUERY_STRING_ESCAPER_NO_PLUS = new PercentEscaper(URI_SAFECHARS_QUERY_STRING, false);
-    
+
     private final OTPKey key;
+
     private final String issuer;
+
     private final String label;
+
     private final long counter;
+
     private final int digits;
+
     private final long timeStep;
 
     /**
      * Creates a new instance of an OTP Auth URI. Note that all parameters are assumed to be valid since the
      * {@link OTPAuthURIBuilder} is responsible for validation, and creation of {@link OTPAuthURI}s.
-     * 
+     *
      * @param key the {@link OTPKey}.
      * @param issuer the issuer string value (decoded/plain-text) indicating the provider or service this account is associated with
      * @param label the label (decoded/plain-text) used to identify which account the underlying key is associated with
@@ -75,50 +79,50 @@ public class OTPAuthURI {
 
     /**
      * Returns the {@link OTPKey}.
-     * 
+     *
      * @return the {@link OTPKey}.
      */
     public OTPKey getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Returns the issuer string value indicating the provider or service this account is 
-     * associated with. If the issuer is absent, issuer information may be taken from the 
-     * issuer prefix of the label. If both issuer parameter and issuer label prefix are present, 
+     * Returns the issuer string value indicating the provider or service this account is
+     * associated with. If the issuer is absent, issuer information may be taken from the
+     * issuer prefix of the label. If both issuer parameter and issuer label prefix are present,
      * they will be equal.
      * <p>
-     * This method returns the decoded/plain-text value of the issuer. If you want to obtain a 
+     * This method returns the decoded/plain-text value of the issuer. If you want to obtain a
      * URI-encoded version, then call the {@link #getEncodedIssuer()}
-     * 
-     * @return the issuer string value indicating the provider or service this account is 
+     *
+     * @return the issuer string value indicating the provider or service this account is
      * associated with, or {@code null} if no issuer.
      */
     public String getIssuer() {
-        return issuer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     /**
      * Returns the RFC 3986 URI-encoded value of this URI's issuer component, or {@code null}
      * if no issuer. The decoded version is obtained via {@link #getIssuer()}.
-     * 
+     *
      * @return the RFC 3986 URI-encoded value of this URI's issuer component, or {@code null}
      * if no issuer.
      */
     public String getEncodedIssuer() {
-        return issuer == null ? null : safeEncodeIssuer(issuer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Returns the label used to identify which account the underlying key is 
-     * associated with. It contains an account name, optionally prefixed by an issuer 
-     * string identifying the provider or service managing that account. This issuer 
-     * prefix can be used to prevent collisions between different accounts with different 
-     * providers that might be identified using the same account name, e.g. the user's 
+     * Returns the label used to identify which account the underlying key is
+     * associated with. It contains an account name, optionally prefixed by an issuer
+     * string identifying the provider or service managing that account. This issuer
+     * prefix can be used to prevent collisions between different accounts with different
+     * providers that might be identified using the same account name, e.g. the user's
      * email address.
      * <p>
-     * The issuer prefix and account name are separated by a literal colon, and optional 
-     * spaces may precede the account name. Neither issuer nor account name may themselves 
+     * The issuer prefix and account name are separated by a literal colon, and optional
+     * spaces may precede the account name. Neither issuer nor account name may themselves
      * contain a colon.
      * <p>
      * Some examples:
@@ -131,75 +135,75 @@ public class OTPAuthURI {
      * the issuer prefix, and {@code "%20alice@bigco.com"} is the account name (URI-encoded)</li>
      * </ul>
      * <p>
-     * This method returns the decoded/plain-text value of the label. If you want to obtain a 
+     * This method returns the decoded/plain-text value of the label. If you want to obtain a
      * URI-encoded version, then call the {@link #getEncodedLabel()}
-     * 
+     *
      * @return the label used to identify which account the underlying key is associated with.
      */
     public String getLabel() {
-        return label;
-    }
-    
-    /**
-     * Returns the RFC 3986 URI-encoded value of this URI's label component. The decoded
-     * version is obtained via {@link #getLabel()}.
-     * 
-     * @return the RFC 3986 URI-encoded value of this URI's label component.
-     */
-    public String getEncodedLabel() {
-        return safeEncodeLabel(label);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Returns the initial counter value (aka the moving factor). This parameter is only 
-     * applicable if the underlying {@code OTPKey} type is HOTP, otherwise it is ignored 
+     * Returns the RFC 3986 URI-encoded value of this URI's label component. The decoded
+     * version is obtained via {@link #getLabel()}.
+     *
+     * @return the RFC 3986 URI-encoded value of this URI's label component.
+     */
+    public String getEncodedLabel() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
+
+    /**
+     * Returns the initial counter value (aka the moving factor). This parameter is only
+     * applicable if the underlying {@code OTPKey} type is HOTP, otherwise it is ignored
      * when constructing the corresponding URI string.
-     * 
+     *
      * @return the initial counter value (aka the moving factor).
      */
     public long getCounter() {
-        return counter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns the number of digits an OTP will contain.
-     * 
+     *
      * @return the number of digits an OTP will contain.
      */
     public int getDigits() {
-        return digits;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Returns the time step size (in seconds) used for generating TOTPs. 
-     * This parameter is only applicable if the underlying {@code OTPKey} 
+     * Returns the time step size (in seconds) used for generating TOTPs.
+     * This parameter is only applicable if the underlying {@code OTPKey}
      * type is TOTP, otherwise it is ignored when constructing the corresponding
      * URI string.
-     * 
+     *
      * @return the time step size (in seconds) used for generating TOTPs.
      */
     public long getTimeStep() {
-        return timeStep;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     /**
      * Returns {@code true} if the URI is associated with an HOTP OTP type, {@code false} otherwise.
-     * 
+     *
      * @return {@code true} if the URI is associated with an HOTP OTP type, {@code false} otherwise.
      */
     public boolean isHOTP() {
-        return key.getType().equals(OTPType.HOTP);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     /**
      * Returns {@code true} if the URI is associated with an TOTP OTP type, {@code false} otherwise.
-     * 
+     *
      * @return {@code true} if the URI is associated with an TOTP OTP type, {@code false} otherwise.
      */
     public boolean isTOTP() {
-        return key.getType().equals(OTPType.TOTP);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     private String contstructUriString(boolean ignoreEncodeSettings) {
         StringBuilder sb = new StringBuilder();
         sb.append("otpauth://");
@@ -224,34 +228,34 @@ public class OTPAuthURI {
         }
         return sb.toString();
     }
-    
+
     /**
-     * Returns the content of this URI as a string, with no URI-encoding of any of the components. This assumes that the 
+     * Returns the content of this URI as a string, with no URI-encoding of any of the components. This assumes that the
      * individual components were themselves decoded/plain-text when this instance was built (this is a prerequisite).
-     * 
+     *
      * @return the content of this URI as a string, with no URI-encoding of any of the components.
      */
     public String toPlainTextUriString() {
-        return contstructUriString(true);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
-     * Returns the content of this URI as a string, with the label, and/or issuer components URI-encoded. If you want to 
-     * obtain a decoded/plain-text string version then call the {@link #toPlainTextUriString()}. The latter assumes that 
-     * the individual components were themselves decoded/plain-text when this instance was built (this is a prerequisite). 
+     * Returns the content of this URI as a string, with the label, and/or issuer components URI-encoded. If you want to
+     * obtain a decoded/plain-text string version then call the {@link #toPlainTextUriString()}. The latter assumes that
+     * the individual components were themselves decoded/plain-text when this instance was built (this is a prerequisite).
      * <p>
      * The URI conforms to the following format:
      * <pre>otpauth://{type}/{label}?secret={secret}&amp;issuer={issuer}&amp;digits={digits}&amp;counter={counter}&amp;period={period}</pre>
      * <ul>
      * <li>{@code type}: The OTP type, either "hotp" or "totp".</li>
-     * <li>{@code label}: The label used to identify which account the underlying key is associated with. 
-     * It contains an account name, which is a URI-encoded string, optionally prefixed by an issuer string 
+     * <li>{@code label}: The label used to identify which account the underlying key is associated with.
+     * It contains an account name, which is a URI-encoded string, optionally prefixed by an issuer string
      * identifying the provider or service managing that account.</li>
      * <li>{@code secret}: The encoded value of the underlying OTP shared secret key.</li>
      * <li>{@code issuer}: String identifying the provider or service managing that account.</li>
-     * <li>{@code counter}: The initial counter value (aka the moving factor). The parameter will only be present 
+     * <li>{@code counter}: The initial counter value (aka the moving factor). The parameter will only be present
      * if the {@code type} is "hotp".</li>
-     * <li>{@code period}: The time step size (in seconds) used for generating TOTPs. The parameter will only be present 
+     * <li>{@code period}: The time step size (in seconds) used for generating TOTPs. The parameter will only be present
      * if the {@code type} is "totp".</li>
      * </ul>
      *
@@ -259,12 +263,12 @@ public class OTPAuthURI {
      * configuration at the time this URI was built.
      */
     public String toUriString() {
-        return contstructUriString(false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     /**
      * Returns the escaped form of a given {@code label} string so that it can be
-     * safely included in {@link OTPAuthURI}s. All non-ASCII characters, and 
+     * safely included in {@link OTPAuthURI}s. All non-ASCII characters, and
      * the slash character ("/") are escaped.
      * <p>
      * When escaping a String, the following rules apply:
@@ -282,24 +286,23 @@ public class OTPAuthURI {
      *     representation of the byte value.
      * </ul>
      *
-     * <p><b>Note:</b> Escaped characters produce uppercase hexadecimal sequences. 
+     * <p><b>Note:</b> Escaped characters produce uppercase hexadecimal sequences.
      * From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:<br>
      * <i>"URI producers and normalizers should use uppercase hexadecimal digits
      * for all percent-encodings."</i>
-     * 
+     *
      * @param label the OTP Auth URI label to be escaped
-     * 
+     *
      * @return the escaped form of a given {@code label} string
      */
     public static final String encodeLabel(String label) {
-        Preconditions.checkNotNull(label);
-        return safeEncodeLabel(label);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     private static final String safeEncodeLabel(String label) {
         return UrlEscapers.urlPathSegmentEscaper().escape(label);
     }
-    
+
     /**
      * Returns the escaped form of a given {@code issuer} string so that it can be
      * safely included in {@link OTPAuthURI}s. All non-ASCII characters are escaped.
@@ -320,22 +323,20 @@ public class OTPAuthURI {
      *     representation of the byte value.
      * </ul>
      *
-     * <p><b>Note:</b> Escaped characters produce uppercase hexadecimal sequences. 
+     * <p><b>Note:</b> Escaped characters produce uppercase hexadecimal sequences.
      * From <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>:<br>
      * <i>"URI producers and normalizers should use uppercase hexadecimal digits
      * for all percent-encodings."</i>
-     * 
+     *
      * @param issuer the OTP Auth URI issuer to be escaped
-     * 
+     *
      * @return the escaped form of a given {@code issuer} string
      */
     public static final String encodeIssuer(String issuer) {
-        Preconditions.checkNotNull(issuer);
-        return safeEncodeIssuer(issuer);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-    
+
     private static final String safeEncodeIssuer(String issuer) {
         return QUERY_STRING_ESCAPER_NO_PLUS.escape(issuer);
     }
-
 }

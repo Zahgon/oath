@@ -13,11 +13,12 @@ import com.google.common.base.Preconditions;
 public final class OTPKey {
 
     private final String key;
+
     private final OTPType type;
 
     /**
      * Creates a new instance of an OTP key of type HOTP or TOTP.
-     * 
+     *
      * @param key
      *            the encoded shared secret key used to generate an OTP
      * @param type
@@ -35,7 +36,7 @@ public final class OTPKey {
      * @return the encoded shared secret key used to generate an OTP.
      */
     public String getKey() {
-        return key;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -43,7 +44,7 @@ public final class OTPKey {
      * @return the type of OTP.
      */
     public OTPType getType() {
-        return type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -51,10 +52,13 @@ public final class OTPKey {
      */
     public static enum OTPType {
 
-        /** {@code HOTP} */
+        /**
+         * {@code HOTP}
+         */
         HOTP("HOTP"),
-
-        /** {@code TOTP} */
+        /**
+         * {@code TOTP}
+         */
         TOTP("TOTP");
 
         private final String name;
@@ -64,24 +68,19 @@ public final class OTPKey {
         }
 
         public String getName() {
-            return name;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         public static OTPType from(String name) {
-            for (OTPType type : values()) {
-                if (type.name.equals(name)) {
-                    return type;
-                }
-            }
-            throw new IllegalArgumentException("No matching OTPType constant for [" + name + "]");
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
-        /** Return a string representation of this {@code OTPType}. */
+        /**
+         * Return a string representation of this {@code OTPType}.
+         */
         @Override
         public String toString() {
-            return name;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
-
     }
-
 }

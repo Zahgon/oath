@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * A Time-based One-time Password (TOTP) validator.
- * 
+ *
  * <p>
  * As per <a href="https://tools.ietf.org/html/rfc6238#section-5.2">RFC 6238 (section 5.2)</a>:
  * </p>
@@ -26,28 +26,30 @@ import com.google.common.base.Preconditions;
  * delay window would expose a larger window for attacks. We RECOMMEND that at
  * most one time step is allowed as the network delay."
  * </p>
- * 
+ *
  * <p>
  * Example:
  * </p>
- * 
+ *
  * <pre>
  * // We will let the TOTP generation time == TOTP validation time so validation will succeed.
- * final long time = System.currentTimeMillis(); 
+ * final long time = System.currentTimeMillis();
  * byte[] key = &quot;...&quot;;
  * TOTP totp = TOTP.key(key).build(time);
  * boolean valid = TOTPValidator.window(0).isValid(key, totp.timeStep(), totp.digits(), totp.hmacShaAlgorithm(), totp.value(), time);
  * // Should print &quot;TOTP = ..., valid = true&quot;
  * System.out.printf(&quot;TOTP = %s, valid = %s%n&quot;, totp.value(), valid);
  * </pre>
- * 
+ *
  * @author Johnny Mongiat
  *
  * @see <a href="https://tools.ietf.org/html/rfc6238#section-5.2">RFC 6238 (section 5.2)</a>
  */
 public final class TOTPValidator {
 
-    /** The default window verification size. */
+    /**
+     * The default window verification size.
+     */
     public static final int DEFAULT_WINDOW = 1;
 
     private final int window;
@@ -55,10 +57,10 @@ public final class TOTPValidator {
     /**
      * Creates a new instance of {@code TOTPValidator} initialized with the
      * specified {@code window} verification size.
-     * 
+     *
      * @param window
      *            the window verification size
-     * 
+     *
      * @throws IllegalArgumentException
      *             if {@code window} is < 0.
      */
@@ -70,27 +72,27 @@ public final class TOTPValidator {
     /**
      * Returns a new {@link TOTPValidator} instance initialized with the
      * {@link #DEFAULT_WINDOW} verification size.
-     * 
+     *
      * @return a new {@link TOTPValidator} instance.
      */
     public static TOTPValidator defaultWindow() {
-        return window(DEFAULT_WINDOW);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns a new {@link TOTPValidator} instance initialized with the
      * specified {@code window} verification size.
-     * 
+     *
      * @param window
      *            the window verification size
-     * 
+     *
      * @return a new {@link TOTPValidator} instance.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if {@code window} is {@literal <} 0.
      */
     public static TOTPValidator window(int window) {
-        return new TOTPValidator(window);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -98,7 +100,7 @@ public final class TOTPValidator {
      * value of the TOTP generated at validation, otherwise {@code false}. The
      * current system time (current time in milliseconds since the UNIX epoch)
      * is used as the validation reference time.
-     * 
+     *
      * @param key
      *            the encoded shared secret key
      * @param timeStep
@@ -109,19 +111,19 @@ public final class TOTPValidator {
      *            {@link HmacShaAlgorithm}
      * @param value
      *            the TOTP value to validate
-     * 
+     *
      * @return {@code true} if the specified TOTP {@code code} value matches the
      *         code value of the TOTP generated at validation, otherwise
      *         {@code false}.
      */
     public boolean isValid(byte[] key, long timeStep, int digits, HmacShaAlgorithm hmacShaAlgorithm, String value) {
-        return isValid(key, timeStep, digits, hmacShaAlgorithm, value, System.currentTimeMillis());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
      * Returns {@code true} if the specified TOTP {@code value} matches the
      * value of the TOTP generated at validation, otherwise {@code false}.
-     * 
+     *
      * @param key
      *            the encoded shared secret key
      * @param timeStep
@@ -134,23 +136,12 @@ public final class TOTPValidator {
      *            the TOTP value to validate
      * @param validationTime
      *            the validation reference time in milliseconds
-     * 
+     *
      * @return {@code true} if the specified TOTP {@code code} value matches the
      *         code value of the TOTP generated at validation, otherwise
      *         {@code false}.
      */
     public boolean isValid(byte[] key, long timeStep, int digits, HmacShaAlgorithm hmacShaAlgorithm, String value, long validationTime) {
-        boolean result = false;
-        TOTPBuilder builder = TOTP.key(key).timeStep(timeStep).digits(digits).hmacSha(hmacShaAlgorithm);
-        for (int i = -window; i <= window; i++) {
-            final long time = validationTime + (i * timeStep);
-            final TOTP vtotp = builder.build(time);
-            if (vtotp.value().equals(value)) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }
